@@ -13,7 +13,7 @@ String ssid  = SECRET_SSID;
 String pass  = SECRET_PASS;
 String token = SECRET_BOT_TOKEN;  
 
-String temp = "temperature 35.3 º";
+String temp = "temperature 22.3 º";
 
 CTBot myBot;
 
@@ -28,9 +28,9 @@ void setup() {
 	
 	// check if all things are ok
 	if (myBot.testConnection())
-		Serial.println("\ntestConnection OK");
+		Serial.println("\nConnected to telegram services");
 	else
-		Serial.println("\ntestConnection NOK");
+		Serial.println("\nNo internet access, check wifi");
     
   /*pinMode(LED0, OUTPUT); 
   pinMode(LED1, OUTPUT); 
