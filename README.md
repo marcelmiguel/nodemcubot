@@ -1,11 +1,11 @@
-## Home automation with a nodemcu v3 via Telegram Bot
+# Home automation with a nodemcu v3 via Telegram Bot
 
-# Requeriments
+## Requeriments
 
 - Arduino IDE and/or VSCode (via arduino-vscode plugin)
 - nodeMCU v3 devkit (https://en.wikipedia.org/wiki/NodeMCU)
 
-# Install
+## Install
 
 - Include CTBot Library
 - Create file secrets.h and set information include it in the project, it is not updated to git because it is included in .gitignore
@@ -14,6 +14,6 @@
 - Configure Arduino Board to nodeMCU v1.0
 - Upload Sketch to nodeMCU
 
-# Debug
+## Debug
 
 Some information is sent to serial, so can check if the wifi is already conected
