@@ -2,18 +2,22 @@
 
 ## Requeriments
 
-- Arduino IDE and/or VSCode (via arduino-vscode plugin)
-- nodeMCU v3 devkit (<https://en.wikipedia.org/wiki/NodeMCU)>
+- Arduino IDE and/or VSCode (via [vscode-arduino](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.vscode-arduino) plugin)
+- [nodeMCU v3 devkit](https://en.wikipedia.org/wiki/NodeMCU)
 
 ## Install
 
-- Include CTBot Library
+- Install CTBot library
+- Install ArduinoJson library (version 5.13.4 at the time of writing, not the last one because fails to compile!!)
 - Follow instructions on how to create a Telegram Bot, via telegram bot BotFather or insiede CTBot library
 - Rename file secrets.h_dist -> secrets.h changing the SSID, Password for Wifi and telegram Token
 - Connect nodemcu to usb to computer
 - Configure Arduino Board to nodeMCU v1.0
-- Upload Sketch to nodeMCU. Maybe is needed to allow on linux access to write
+- Upload Sketch to nodeMCU ¹
 
+## Issues
+
+¹ On linux maybe is needed to allow write permissions to the USB
 ```
 sudo chmod a+rw /dev/ttyUSB0
 ```
