@@ -12,7 +12,11 @@
 - Rename file secrets.h_dist -> secrets.h changing the SSID, Password for Wifi and telegram Token
 - Connect nodemcu to usb to computer
 - Configure Arduino Board to nodeMCU v1.0
-- Upload Sketch to nodeMCU
+- Upload Sketch to nodeMCU. Maybe is needed to allow on linux access to write
+
+```
+sudo chmod a+rw /dev/ttyUSB0
+```
 
 ## Debug
 
