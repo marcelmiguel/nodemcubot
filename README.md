@@ -7,8 +7,10 @@
 
 ## Install
 
-- Install CTBot library
-- Install ArduinoJson library (version 5.13.4 at the time of writing, not the last one because fails to compile!!)
+- Install [CTBot library]
+- Install [Adafruit BME280 Library]
+- Install [Adafruit Unified Sensor]
+- Install [ArduinoJson library] (version 5.13.4 at the time of writing, not the last one because fails to compile!!)
 - Follow instructions on how to create a Telegram Bot, via telegram bot BotFather or insiede CTBot library
 - Rename file secrets.h_dist -> secrets.h changing the SSID, Password for Wifi and telegram Token
 - Connect nodemcu to usb to computer
