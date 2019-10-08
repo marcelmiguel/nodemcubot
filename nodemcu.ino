@@ -8,23 +8,20 @@
 #include <Adafruit_BME280.h>
 
 #define SEALEVELPRESSURE_HPA (1013.25)
-
-Adafruit_BME280 bme;
-
-float temperature, humidity, pressure, altitude;
-
 #define LED0 3 //D3
 #define LED1 1 //D10
 #define LED2 2 //
 #define LED3 10 //SD3
- 
+
+// Global objects
+Adafruit_BME280 bme;
+float temperature, humidity, pressure, altitude;
 String ssid  = SECRET_SSID;
 String pass  = SECRET_PASS;
 String token = SECRET_BOT_TOKEN;  
-
 String res = "";
-
 CTBot myBot;
+
 
 void setup() {
   
