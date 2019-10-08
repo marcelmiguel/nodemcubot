@@ -34,14 +34,14 @@ void setup() {
 
   myBot.wifiConnect(ssid, pass);
 
-	// set the telegram bot token
-	myBot.setTelegramToken(token);
+  // set the telegram bot token
+  myBot.setTelegramToken(token);
 	
-	// check if all things are ok
-	if (myBot.testConnection())
-		Serial.println("\nConnected to telegram services");
-	else
-		Serial.println("\nNo internet access, check wifi");
+  // check if all things are ok
+  if (myBot.testConnection())
+    Serial.println("\nConnected to telegram services");
+  else
+    Serial.println("\nNo internet access, check wifi");
     
   /*pinMode(LED0, OUTPUT); 
   pinMode(LED1, OUTPUT); 
@@ -53,9 +53,9 @@ void loop() {
 
   TBMessage msg;
 
-	if (myBot.getNewMessage(msg)) {
+  if (myBot.getNewMessage(msg)) {
     res = "";
-	  if (msg.text.equals("on")){  
+    if (msg.text.equals("on")){  
       //TODO on relay
     } else if (msg.text.equals("temp")){    
       temperature = bme.readTemperature();
