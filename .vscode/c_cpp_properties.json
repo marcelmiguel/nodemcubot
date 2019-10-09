@@ -3,6 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
+                "/home/marcel/Arduino/libraries/Adafruit_SSD1306",
                 "/home/marcel/Arduino/libraries/CTBot/src",
                 "/home/marcel/.arduino15/packages/esp8266/tools/**",
                 "/home/marcel/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
