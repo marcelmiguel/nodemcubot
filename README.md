@@ -1,5 +1,7 @@
 # Home automation with a nodemcu v3 via Telegram Bot
 
+![Bread board](doc/breadboard.jpg)
+
 ## Requeriments
 
 - Arduino IDE and/or VSCode (via [vscode-arduino](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.vscode-arduino) plugin)
