@@ -116,25 +116,25 @@ void printWeatherInfo() {
   
   altitude = bme.readAltitude(SEALEVELPRESSURE_HPA);
   res = altitude;
-  res += "m";
+  res += " m";
   display.setCursor(0, 10);
   display.println(res);
 
   humidity = bme.readHumidity();
   res = humidity;
-  res += "%";
+  res += " %";
   display.setCursor(0, 20);
   display.println(res);
 
   temperature = bme.readTemperature();
   res = temperature;
-  res += "ºC";
+  res += F(" C");
   display.setCursor(0, 30);
   display.println(res);
   
   pressure = bme.readPressure() / 100.0F;
   res = pressure;
-  res += "hPa";
+  res += " hPa";
   display.setCursor(0, 40);
   display.println(res);
 
