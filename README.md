@@ -31,4 +31,10 @@ sudo chmod a+rw /dev/ttyUSB0
 
 Some information is sent to serial, so can check if the wifi is already conected
 
+## Telegram Bot
+
+Example bot output
+
 ![Telegram Bot](doc/telegrambot.jpg)
+
+Customize icon, commands via BotFather
