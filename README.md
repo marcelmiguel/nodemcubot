@@ -9,16 +9,20 @@
 
 ## Install
 
-- Install [CTBot library]
-- Install [Adafruit BME280 Library]
-- Install [Adafruit Unified Sensor]
-- Install [Adafruit SSD1306 Library]
-- Install [ArduinoJson library] (version 5.13.4 at the time of writing, not the last one because fails to compile!!)
-- Follow instructions on how to create a Telegram Bot, via telegram bot BotFather or insiede CTBot library
-- Rename file secrets.h_dist -> secrets.h changing the SSID, Password for Wifi and telegram Token
-- Connect nodemcu to usb to computer
+- Install libraries:
+  [CTBot]
+  [Adafruit BME280]
+  [Adafruit Unified Sensor]
+  [Adafruit SSD1306]
+  [NTPClient Fabrice]
+  [ArduinoJson] (version 5.13.4 at the time of writing, not the last one because fails to compile!!)
+- Follow instructions on how to create a Telegram Bot, via telegram bot BotFather or see examples insiee CTBot library
+- Rename file secrets.h_dist -> secrets.h changing all definitions
+- Connect nodemcu using usb to the computer
 - Configure Arduino Board to nodeMCU v1.0
 - Upload Sketch to nodeMCU ¹
+- Open Serial Monitor
+- Test if messages are sent to the serial port and the OLED screen show information
 
 ## Issues
 
@@ -38,3 +42,12 @@ Example bot output
 ![Telegram Bot](doc/telegrambot.jpg)
 
 Customize icon, commands via BotFather
+
+## REST API
+
+Created a JSON REST API to get weather information (no security!)
+Change "weather.local" or established hostName to ip if mDNS does not work
+
+``` rest
+GET http://weather.local/api/v1/weather
+```

@@ -1,122 +1,108 @@
+// Home Automation project
+// Get information of sensors
+// etc...
+
 #include <CTBot.h>
 #include <CTBotDataStructures.h>
 #include <CTBotInlineKeyboard.h>
 #include <Utilities.h>
-
+#include <NTPClient.h>
+#include <WiFiUdp.h>
+#include <ESP8266WiFi.h>
+#include <ESP8266mDNS.h>
+#include <ESP8266WebServer.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 #include <Adafruit_SSD1306.h>
 #include <splash.h>
-
+#include "peripherals.h"
+#include "scheduler.h"
+#include "display.h"
 #include "secrets.h"
 
-// BME280 constants
-#define SEALEVELPRESSURE_HPA (1013.25)
+// Services
+CTBot myBot;
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, SECRET_NTPSERVER, NTPZONEFIX);
+ESP8266WebServer server(80);
 
-// SSD1306 constants
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
-
-#define LED0 3 //D3
-#define LED1 1 //D10
-#define LED2 2 //
-#define LED3 10 //SD3
+// Peripherals
+Adafruit_BME280 bme;
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 // Global objects
-Adafruit_BME280 bme;
 uint ticks=0;
 float temperature, humidity, pressure, altitude;
-String ssid  = SECRET_SSID;
-String pass  = SECRET_PASS;
-String token = SECRET_BOT_TOKEN;  
-String res = "";
-CTBot myBot;
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 
 void setup() {
   
-  Serial.begin(115200);
+  Serial.begin(SERIAL_BAUD);
 
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
-    Serial.println(F("SSD1306 allocation failed"));
-    for(;;);
+  if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADRRESS)) {
+    Serial.println(F("No SSD1306 connected"));
   }
   
-  delay(2500);
-  
-  loadingSplash();
+  timeClient.begin();
 
-  bme.begin(0x76);
+  bme.begin(SENSOR_TEMP_ADDRESS);
 
-  myBot.wifiConnect(ssid, pass);
+  myBot.wifiConnect(SECRET_SSID, SECRET_PASS);
 
-  // set the telegram bot token
-  myBot.setTelegramToken(token);
+  myBot.setTelegramToken(SECRET_BOT_TOKEN);
 	
-  // check if all things are ok
   bool conn = myBot.testConnection();
-    
   showInitStatus(conn);
 
-  delay(2000);
-  
+  initMDNS();
+  timeClient.update();
+  getInfoFromSensors();
+
   printWeatherInfo();
 
-  /*pinMode(LED0, OUTPUT); 
-  pinMode(LED1, OUTPUT); 
-  pinMode(LED2, OUTPUT); 
-  pinMode(LED3, OUTPUT); */
+  initWebServerRouter();
+
 }
 
 void loop() {
 
-  TBMessage msg;
-
-  if (myBot.getNewMessage(msg)) {
-    res = "";
-    if (msg.text.equals("/on1")){  
-      //TODO on relay
-      res = "switch relay 1";
-    } else if (msg.text.equals("/temp")){    
-      temperature = bme.readTemperature();
-      res = temperature;
-      res += "ºC";
-    } else if (msg.text.equals("/pressure")){    
-      pressure = bme.readPressure() / 100.0F;
-      res = pressure;
-      res += "hPa";
-    } else if (msg.text.equals("/humidity")){    
-      humidity = bme.readHumidity();
-      res = humidity;
-      res += "%";
-    } else if (msg.text.equals("/altitude")){    
-      altitude = bme.readAltitude(SEALEVELPRESSURE_HPA);
-      res = altitude;
-      res += "m";
-    }
-
-    if (res != "") {
-      Serial.println(res);
-      myBot.sendMessage(msg.sender.id, res);
-    }
-  }  
-	if (ticks % 10) {
+  if ((ticks % TICKETSSECOND*EVERY_10_SECONDS)==0) { 
+    getInfoFromSensors();
     printWeatherInfo();
   }
 
+  if ((ticks % (TICKETSSECOND*EVERY_6_SECONDS))==0) { 
+    // This process collapses the system for a few seconds
+    handleBotMessages();
+  }
+
+  if ((ticks % (TICKETSSECOND*EVERY_1_HOUR))==0) {
+    timeClient.update();
+    Serial.println("Get time from internet " +timeClient.getFormattedTime());
+  }
+
+  server.handleClient();
+
   ticks ++;
-  delay(5000);
+  delay(LOOPSLEEP);
+
 }
 
-void loadingSplash() {
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0, 25);
-  display.println("Connecting to Wifi...");
+void initMDNS() {
+   if (!MDNS.begin(SECRET_HOSTNAME)) 
+   {             
+     Serial.println("Error Initializing mDNS");
+   }
+   Serial.println("mDNS activated");
+}
+
+void initWebServerRouter() {
+  server.on("/", handleRoot);
+  server.on("/api/v1/weather", handleGetWeatherInfo);
+  server.onNotFound(handleNotFound);
+  server.begin();
 }
 
 void showInitStatus(bool conn) {
@@ -124,46 +110,102 @@ void showInitStatus(bool conn) {
     Serial.println("\nConnected to telegram services");
   else
     Serial.println("\nNo internet access, check wifi");
-
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0, 25);
-  
-  if (conn)
-    display.println("Connected to Internet");
-  else
-    display.println("No Internet access !");
 }
 
+void getInfoFromSensors() {
+  temperature = bme.readTemperature();
+  altitude = bme.readAltitude(SEALEVELPRESSURE_HPA);
+  humidity = bme.readHumidity();
+  pressure = bme.readPressure() / 100.0F;
+} 
+
 void printWeatherInfo() {
+  char str[20];
+
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
-  
-  altitude = bme.readAltitude(SEALEVELPRESSURE_HPA);
-  res = altitude;
-  res += " m";
-  display.setCursor(0, 10);
-  display.println(res);
+    
+  sprintf(str, PRINT_TEMPERATURE, temperature);
+  display.setCursor(6, 10);
+  display.println(str);
 
-  humidity = bme.readHumidity();
-  res = humidity;
-  res += " %";
+  sprintf(str, PRINT_HUMIDITY, humidity);
+  display.setCursor(83, 10);
+  display.println(str);
+  
+  sprintf(str, PRINT_ALTITUDE, altitude);
   display.setCursor(0, 20);
-  display.println(res);
+  display.println(str);
 
-  temperature = bme.readTemperature();
-  res = temperature;
-  res += F(" C");
-  display.setCursor(0, 30);
-  display.println(res);
-  
-  pressure = bme.readPressure() / 100.0F;
-  res = pressure;
-  res += " hPa";
+  sprintf(str, PRINT_PRESSURE, pressure);
+  display.setCursor(60, 20);
+  display.println(str);
+
   display.setCursor(0, 40);
-  display.println(res);
+  sprintf(str, PRINT_HOUR_MINUTES, timeClient.getHours(), timeClient.getMinutes());
+  display.println(str);
+
+  display.setCursor(50, 40);
+  display.println(WiFi.localIP());
+
+  // display.setCursor(0, 50);
+  // display.println("a free line"");
 
   display.display(); 
 }
+
+void handleBotMessages() {
+  
+  TBMessage msg;
+  
+  if (myBot.getNewMessage(msg)) {
+    char str[20];
+
+    if (msg.text.equals("/on1")){  
+      //TODO switch relay
+    } else if (msg.text.equals("/temp")){    
+      sprintf(str, PRINT_TEMPERATURE, temperature);
+      myBot.sendMessage(msg.sender.id, str);
+    } else if (msg.text.equals("/pressure")){    
+      sprintf(str, PRINT_PRESSURE, pressure);
+      myBot.sendMessage(msg.sender.id, str);
+    } else if (msg.text.equals("/humidity")){    
+      sprintf(str, PRINT_HUMIDITY, humidity);
+      myBot.sendMessage(msg.sender.id, str);
+    } else if (msg.text.equals("/altitude")){    
+      sprintf(str, PRINT_ALTITUDE, altitude);
+      myBot.sendMessage(msg.sender.id, str);
+    }
+  }  
+
+}
+
+// region WebServer routing
+void handleRoot() {
+   //sprintf(str, "%4.1 ºC", temperature);
+   //sprintf(str, "%2. %", humidity);
+   //sprintf(str, "%4. m", altitude);
+   //sprintf(str, "%5. hPa", pressure);
+
+   server.send(200, "text/plain", "First web server");
+}
+
+void handleGetWeatherInfo() {
+  String value = "";
+  char str[400];
+
+  sprintf(str, "{\"%s\":%4.1f, \"%s\":%2.f, \"%s\":%4.f, \"%s\":%5.f}", 
+    "temperature", temperature,
+    "humidity", humidity,
+    "pressure", pressure,
+    "altitude", altitude
+    );
+  
+  server.send(200, "application/json", str);
+}
+
+void handleNotFound() {
+   server.send(404, "text/plain", "Sorry, Page Not found");
+}
+// endregion WebServer routing
