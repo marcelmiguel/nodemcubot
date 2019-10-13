@@ -183,12 +183,10 @@ void handleBotMessages() {
 
 // region WebServer routing
 void handleRoot() {
-   //sprintf(str, "%4.1 ºC", temperature);
-   //sprintf(str, "%2. %", humidity);
-   //sprintf(str, "%4. m", altitude);
-   //sprintf(str, "%5. hPa", pressure);
+   
+  String html = "<!DOCTYPE html><html lang=\"en\"><head> <title>Weather Station</title> <script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script></head><body> <div id=\"chart_div\" style=\"width: 200px; height: 200px;\"></div> <div id=\"chart_div1\" style=\"width: 200px; height: 200px;\"></div> <script> google.charts.load('current', { 'packages': ['gauge'] }); google.charts.setOnLoadCallback(drawChart); function drawChart() { var data = google.visualization.arrayToDataTable([ ['Label', 'Value'], ['Temp º', 24] ]); var data1 = google.visualization.arrayToDataTable([ ['Label', 'Value'], ['Humid. %', 65] ]); var options = { width: 200, height: 200, redFrom: 35, redTo: 50, yellowFrom: 30, yellowTo: 35, minorTicks: 5, min: -40, max: 50 }; var options1 = { width: 200, height: 200, redFrom: 90, redTo: 100, yellowFrom: 75, yellowTo: 90, minorTicks: 5 }; var chart = new google.visualization.Gauge(document.getElementById('chart_div')); var chart1 = new google.visualization.Gauge(document.getElementById('chart_div1')); chart.draw(data, options); chart1.draw(data1, options1); setInterval(function() { fetch('api/v1/weather', { mode: 'no-cors', method: 'GET', headers: { 'Content-Type': 'application/json' }, cache: 'no-cache' }) .then(function(response) { return response.text(); }) .then(function(dataIn) { var obj = JSON.parse(dataIn); data.setValue(0, 1, obj.temperature); chart.draw(data, options); data1.setValue(0, 1, obj.humidity); chart1.draw(data1, options1); console.log('data = ', dataIn); }) .catch(function(err) { console.error(err); }); }, 10000); } </script></body></html>";
 
-   server.send(200, "text/plain", "First web server");
+  server.send(200, "text/html", html);
 }
 
 void handleGetWeatherInfo() {
