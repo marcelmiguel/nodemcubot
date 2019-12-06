@@ -19,7 +19,8 @@
 - Follow instructions on how to create a Telegram Bot, via telegram bot BotFather or see examples insiee CTBot library
 - Rename file secrets.h_dist -> secrets.h changing all definitions
 - Connect nodemcu using usb to the computer
-- Configure Arduino Board to nodeMCU v1.0
+- Configure Arduino Board to "nodeMCU v1.0"
+- Select port (e.g. maybe /dev/ttyUSB0 on linux // maybe /dev/cu_.... on mac)
 - Upload Sketch to nodeMCU ¹
 - Open Serial Monitor
 - Test if messages are sent to the serial port and the OLED screen show information
@@ -33,7 +34,7 @@ sudo chmod a+rw /dev/ttyUSB0
 
 ## Debug
 
-Some information is sent to serial, so can check if the wifi is already conected
+Some information is sent to serial, so is it possible to check if the wifi is already connected, etc...
 
 ## Telegram Bot
 
@@ -51,3 +52,10 @@ Change "weather.local" or established hostName to ip if mDNS does not work
 ``` rest
 GET http://weather.local/api/v1/weather
 ```
+
+## Schema & Parts list
+
+![Schema](doc/nodemcu-bot_schema.png)
+
+- [Fritzing schema](doc/nodemcu-bot.fzz)
+- [Shopping list](doc/nodemcu-bot_bom.html)
