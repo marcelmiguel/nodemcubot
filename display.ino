@@ -3,6 +3,8 @@
 #include <ESP8266WiFi.h>
 #include <Wire.h>
 #include "secrets.h"
+#include "peripherals.h"
+#include "display.h"
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
