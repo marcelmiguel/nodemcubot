@@ -28,7 +28,8 @@
 ## Issues
 
 ¹ On linux maybe is needed to allow write permissions to the USB
-```
+
+``` sh
 sudo chmod a+rw /dev/ttyUSB0
 ```
 
