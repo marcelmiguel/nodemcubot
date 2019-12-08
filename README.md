@@ -59,5 +59,5 @@ GET http://weather.local/api/v1/weather
 
 - [Schema on fritzing](https://fritzing.org/projects/nodemcu-bot)
 - [Fritzing schema](doc/fritzing/nodemcu-bot.fzz)
-- [Shopping list](http://htmlpreview.github.com/?https://github.com/marcelmiguel/nodemcubot/blob/master/doc/nodemcu-bot_bom.html)
+- [Shopping list](https://htmlpreview.github.com/?https%3A%2F%2Fgithub.com%2Fmarcelmiguel%2Fnodemcubot%2Fblob%2Fmaster%2Fdoc%2Ffritzing%2Fnodemcu-bot_bom.html)
 - Fritzing parts at ./doc/fritzing/parts/
