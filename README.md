@@ -45,6 +45,10 @@ Example bot output
 
 Customize icon, commands via BotFather
 
+## Web Page
+
+![Example](doc/webpage.png)
+
 ## REST API
 
 Created a JSON REST API to get weather information (no security!)
