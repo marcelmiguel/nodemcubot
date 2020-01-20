@@ -27,13 +27,14 @@ void handleGetWeatherInfo() {
   String value = "";
   char str[400];
 
-  sprintf(str, "{\"%s\":%4.1f, \"%s\":%2.f, \"%s\":%4.f, \"%s\":%5.f}", 
+  sprintf(str, "{\"%s\":%4.1f, \"%s\":%2.f, \"%s\":%4.f, \"%s\":%5.f, \"%s\":%2.f}",
     "temperature", temperature,
     "humidity", humidity,
     "pressure", pressure,
-    "altitude", altitude
+    "altitude", altitude,
+    "moisture", moisture_level
     );
-  
+
   server.send(200, "application/json", str);
 }
 
@@ -47,7 +48,7 @@ void handleNotFound() {
   if (!jsonBody.success()) {
     Serial.println("error in parsin json body");
     server.send(400);
-  } else {   
+  } else {
     Serial.println("Lon & lat");
     //Serial.println(String(jsonBody["longitude"]));
     //Serial.println(String(jsonBody["latitude"]));

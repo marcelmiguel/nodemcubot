@@ -20,7 +20,7 @@ void printWeatherInfo() {
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
-    
+
   sprintf(str, PRINT_TEMPERATURE, temperature);
   display.setCursor(6, 10);
   display.println(str);
@@ -28,7 +28,7 @@ void printWeatherInfo() {
   sprintf(str, PRINT_HUMIDITY, humidity);
   display.setCursor(83, 10);
   display.println(str);
-  
+
   sprintf(str, PRINT_ALTITUDE, altitude);
   display.setCursor(0, 20);
   display.println(str);
@@ -37,14 +37,19 @@ void printWeatherInfo() {
   display.setCursor(60, 20);
   display.println(str);
 
-  display.setCursor(0, 40);
+  sprintf(str, PRINT_MOISTURE, moisture_level);
+  display.setCursor(6, 30);
+  display.println(str);
+
+  // display.setCursor(0, 40);
+  display.setCursor(0, 50);
   display.println(getTimeFormattedHHNN());
 
-  display.setCursor(50, 40);
+  display.setCursor(50, 50);
   display.println(WiFi.localIP());
 
   // display.setCursor(0, 50);
   // display.println("a free line"");
 
-  display.display(); 
+  display.display();
 }
