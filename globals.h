@@ -4,7 +4,7 @@
 
 #include <Utilities.h>
 
-float temperature, humidity, pressure, altitude;
+float temperature, humidity, pressure, altitude, moisture_level;
 String ssid, password;
 
 #endif

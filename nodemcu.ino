@@ -12,7 +12,7 @@
 uint ticks=0;
 
 void setup() {
-  
+
   Serial.begin(SERIAL_BAUD);
 
   initConfig();
@@ -25,6 +25,7 @@ void setup() {
 
   updateNTPClientTime();
   getInfoFromSensors();
+  getMoistureMesures();
   printWeatherInfo();
 
   initWebServerRouter();
@@ -35,12 +36,13 @@ void setup() {
 
 void loop() {
 
-  if ((ticks % EVERY_10_SECONDS)==0) { 
+  if ((ticks % EVERY_10_SECONDS)==0) {
     getInfoFromSensors();
+    getMoistureMesures();
     printWeatherInfo();
   }
 
-  if ((ticks % EVERY_6_SECONDS)==0) { 
+  if ((ticks % EVERY_6_SECONDS)==0) {
     handleBotMessages();
   }
 

@@ -11,3 +11,5 @@
 
 // Serial port speed
 #define SERIAL_BAUD 115200
+
+#define MOISTURE_PIN A0  //Analog channel A0 as used to measure temperature
