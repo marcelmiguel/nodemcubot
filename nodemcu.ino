@@ -22,6 +22,7 @@ void setup() {
   initSensors();
   initTelegramBot();
   initMDNS();
+  initGPIO();
 
   updateNTPClientTime();
   getInfoFromSensors();
@@ -47,6 +48,10 @@ void loop() {
   if ((ticks % EVERY_1_HOUR)==0) {
     updateNTPClientTime();
     Serial.println("Get time from internet " +getTimeFormatted());
+  }
+
+  if ((ticks % EVERY_500MS)==0) {
+    handleIO();
   }
 
   webServerDoStuff();

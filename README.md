@@ -20,6 +20,7 @@
 - Rename file secrets.h_dist -> secrets.h changing all definitions
 - Connect nodemcu using usb to the computer
 - Configure Arduino Board to "nodeMCU v1.0"
+- Check on Board Manager that ESP8266 is versions 2.7,1
 - Select port (e.g. maybe /dev/ttyUSB0 on linux // maybe /dev/cu_.... on mac)
 - Upload Sketch to nodeMCU ¹
 - Open Serial Monitor
@@ -56,7 +57,12 @@ Change "weather.local" or established hostName to ip if mDNS does not work
 
 ``` rest
 GET http://weather.local/api/v1/weather
+GET http://weather.local/api/v1/relay/1/on
+GET http://weather.local/api/v1/relay/1/off
+GET http://weather.local/api/v1/relay/2/on
+GET http://weather.local/api/v1/relay/2/off
 ```
+
 
 ## Schema & Parts list
 
