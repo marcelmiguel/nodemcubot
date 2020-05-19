@@ -31,6 +31,7 @@ void setup() {
   initWebServerRouter();
 
   initConfig();
+  InitWOL();
 
 }
 

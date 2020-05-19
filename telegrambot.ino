@@ -50,6 +50,14 @@ void handleBotMessages() {
     } else if (msg.text.equals("/tempovo")){    
       sprintf(str, PRINT_TEMPERATURE, temperature);
       myBot.sendMessage(msg.sender.id, str);
+    } else if (msg.text.equals("/wolpc1")){    
+      sprintf(str, "Starting PC1");
+      WakeOnLan(WAKONLAN_MAC_PC1);
+      myBot.sendMessage(msg.sender.id, str);
+    } else if (msg.text.equals("/wolpc2")){    
+      WakeOnLan(WAKONLAN_MAC_PC2);
+      sprintf(str, "Starting PC2");
+      myBot.sendMessage(msg.sender.id, str);
     }
     // weight
     // position

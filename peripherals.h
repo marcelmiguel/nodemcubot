@@ -18,8 +18,6 @@
 #define RELAY1IO 12 // D6 on nodemcu
 #define RELAY2IO 13 // D7 on nodemcu
 
-//#define SWITCH1IO 0 // D3 on nodemcu, MANUAL SWITCH POSITION
-//#define SWITCH2IO 2 // D4 on nodemcu, SIM SWITCH POSITION
 #define SWITCH1IO 14 // D5 on nodemcu, MANUAL SWITCH POSITION
 #define SWITCH2IO 16 // D0 on nodemcu, SIM SWITCH POSITION
 
