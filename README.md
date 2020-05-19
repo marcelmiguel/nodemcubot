@@ -46,6 +46,20 @@ Example bot output
 
 Customize icon, commands via BotFather
 
+List of commands:
+
+```telegram
+motionon - Active motion on OVO
+motionoff - Disable motion on OVO
+temp - Get temperature of computers
+pressure - Get pressure of computers
+humidity - Get humidity of computers
+altitude - Get altitude of computers
+tempovo - Get temp inside cabin
+weight - Weight inside cabin
+position - Position of cabin
+```
+
 ## Web Page
 
 ![Example](doc/webpage.png)
@@ -61,6 +75,12 @@ GET http://weather.local/api/v1/relay/1/on
 GET http://weather.local/api/v1/relay/1/off
 GET http://weather.local/api/v1/relay/2/on
 GET http://weather.local/api/v1/relay/2/off
+
+GET http://192.168.1.46/api/v1/weather
+GET http://192.168.1.46/api/v1/relay/1/on
+GET http://192.168.1.46/api/v1/relay/1/off
+GET http://192.168.1.46/api/v1/relay/2/on
+GET http://192.168.1.46/api/v1/relay/2/off
 ```
 
 

@@ -27,8 +27,14 @@ void handleBotMessages() {
   if (myBot.getNewMessage(msg)) {
     char str[20];
 
-    if (msg.text.equals("/on1")){  
-      //TODO switch relay
+    if (msg.text.equals("/motionon")){
+      relayAction("1", "on");
+      sprintf(str, "Motion on");
+      myBot.sendMessage(msg.sender.id, str);
+    } else if (msg.text.equals("/motionoff")){
+      relayAction("1", "off");
+      sprintf(str, "Motion off");
+      myBot.sendMessage(msg.sender.id, str);
     } else if (msg.text.equals("/temp")){    
       sprintf(str, PRINT_TEMPERATURE, temperature);
       myBot.sendMessage(msg.sender.id, str);
@@ -41,7 +47,12 @@ void handleBotMessages() {
     } else if (msg.text.equals("/altitude")){    
       sprintf(str, PRINT_ALTITUDE, altitude);
       myBot.sendMessage(msg.sender.id, str);
+    } else if (msg.text.equals("/tempovo")){    
+      sprintf(str, PRINT_TEMPERATURE, temperature);
+      myBot.sendMessage(msg.sender.id, str);
     }
+    // weight
+    // position
   }  
 
 }

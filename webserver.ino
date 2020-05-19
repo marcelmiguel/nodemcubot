@@ -68,6 +68,6 @@ void handleGetRelay() {
     return;
   }
 
-  String result = "RelayID: '" + relayID + "'" + " "+ relayStatus;
+  String result = "{\"relayID\":\"" + relayID + "\", \"relayStatus\":\""+ relayStatus+"\"}";
   server.send(200, "application/json", result);
 }
