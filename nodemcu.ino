@@ -42,7 +42,7 @@ void loop() {
     printWeatherInfo();
   }
 
-  if ((ticks % EVERY_6_SECONDS)==0) { 
+  if ((ticks % EVERY_SECOND)==0) { 
     handleBotMessages();
   }
 
