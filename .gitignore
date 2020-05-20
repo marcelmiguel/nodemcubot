@@ -32,3 +32,4 @@
 *.app
 
 secrets.h
+build/
