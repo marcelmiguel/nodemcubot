@@ -69,16 +69,28 @@ void handleIO() {
         }
 
         if ( newSWManual && !oldSWManual) { // Moved switch to Manual/Remote, so force relay
-            relayAction("1", "on");
-            relayAction("2", "off");
+            motionRemote();
         } if ( newSWSim && !oldSWSim) { // Moved switch to Sim, so force relay
-            relayAction("1", "off");
-            relayAction("2", "on");
+            motionOn();
         } else if ( !newSWManual && !newSWSim ) { // Moved to stop
-            relayAction("1", "off");
-            relayAction("2", "off");
+            motionOff();
         }    
     }
     oldSWManual = newSWManual; 
     oldSWSim = newSWSim;
+}
+
+void motionOn() {
+    relayAction("1", "off");
+    relayAction("2", "on");
+}
+
+void motionOff() {
+    relayAction("1", "off");
+    relayAction("2", "off");
+}
+
+void motionRemote() {
+    relayAction("1", "on");
+    relayAction("2", "off");
 }

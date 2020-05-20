@@ -8,6 +8,8 @@ ESP8266WebServer server(80);
 void initWebServerRouter() {
   server.on("/", handleRoot);
   server.on("/api/v1/weather", handleGetWeatherInfo);
+  server.on("/api/v1/motionon", handleGetMotionOn);
+  server.on("/api/v1/motionoff", handleGetMotionOff);
   //server.on("/api/v1/setposition", HTTP_POST, handleSetPosition);
   server.on(UriBraces("/api/v1/relay/{}/{}"), handleGetRelay);
 
@@ -37,6 +39,20 @@ void handleGetWeatherInfo() {
     "altitude", altitude
     );
   
+  server.send(200, "application/json", str);
+}
+
+void handleGetMotionOn() {
+  motionOn();
+  char str[400];
+  sprintf(str, "{\"%s\":\"%s\"}", "motion", "on" );
+  server.send(200, "application/json", str);
+}
+
+void handleGetMotionOff() {
+  motionOff();
+  char str[400];
+  sprintf(str, "{\"%s\":\"%s\"}", "motion", "off" );
   server.send(200, "application/json", str);
 }
 
