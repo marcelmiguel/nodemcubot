@@ -4,6 +4,8 @@
 #include "globals.h"
 
 CTBot myBot;
+TBMessage msg;
+char str[60];
 
 bool initTelegramBot() {
     myBot.wifiConnect(SECRET_SSID, SECRET_PASS);
@@ -21,18 +23,14 @@ bool initTelegramBot() {
 }
 
 void handleBotMessages() {
-  
-  TBMessage msg;
-  
   if (myBot.getNewMessage(msg)) {
-    char str[20];
-
+    
     if (msg.text.equals("/motionon")){
-      relayAction("1", "on");
+      motionOn();
       sprintf(str, "Motion on");
       myBot.sendMessage(msg.sender.id, str);
     } else if (msg.text.equals("/motionoff")){
-      relayAction("1", "off");
+      motionOff();
       sprintf(str, "Motion off");
       myBot.sendMessage(msg.sender.id, str);
     } else if (msg.text.equals("/temp")){    

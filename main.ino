@@ -42,8 +42,8 @@ void loop() {
     printWeatherInfo();
   }
 
-  if ((ticks % EVERY_SECOND)==0) { 
-    handleBotMessages();
+  if ((ticks % EVERY_20_SECONDS)==0) { 
+    handleBotMessages();  
   }
 
   if ((ticks % EVERY_1_HOUR)==0) {
@@ -51,10 +51,7 @@ void loop() {
     Serial.println("Get time from internet " +getTimeFormatted());
   }
 
-  if ((ticks % EVERY_500MS)==0) {
-    handleIO();
-  }
-
+  handleIO();
   webServerDoStuff();
 
   ticks ++;
