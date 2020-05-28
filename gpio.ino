@@ -74,7 +74,7 @@ void handleIO() {
             motionOn();
         } else if ( !newSWManual && !newSWSim ) { // Moved to stop
             motionOff();
-        }    
+        }
     }
     oldSWManual = newSWManual; 
     oldSWSim = newSWSim;

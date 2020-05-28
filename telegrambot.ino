@@ -25,6 +25,11 @@ bool initTelegramBot() {
 void handleBotMessages() {
   if (myBot.getNewMessage(msg)) {
     
+    if (!secureAccess(msg.sender.id)) {
+      myBot.sendMessage(msg.sender.id, "No rights to use this bot");
+      return;
+    }
+
     if (msg.text.equals("/motionon")){
       motionOn();
       sprintf(str, "Motion on");
@@ -61,4 +66,16 @@ void handleBotMessages() {
     // position
   }  
 
+}
+
+bool secureAccess(uint sender_id) {
+  if (sender_id == BOT_USERID1) {
+    return true;
+  } else if (sender_id == BOT_USERID2) {
+    return true;
+  } else if (sender_id == BOT_USERID3) {
+    return true;
+  }
+  
+  return false;
 }

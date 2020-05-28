@@ -11,6 +11,7 @@
 
 - Install libraries:
   [CTBot]
+  [UniversalTelegramBot]
   [Adafruit BME280]
   [Adafruit Unified Sensor]
   [Adafruit SSD1306]
