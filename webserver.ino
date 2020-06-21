@@ -1,5 +1,6 @@
 #include <ESP8266WebServer.h>
 #include <Utilities.h>
+#include <uri/UriBraces.h>
 #include "globals.h"
 
 ESP8266WebServer server(80);
@@ -7,7 +8,11 @@ ESP8266WebServer server(80);
 void initWebServerRouter() {
   server.on("/", handleRoot);
   server.on("/api/v1/weather", handleGetWeatherInfo);
+  server.on("/api/v1/motionon", handleGetMotionOn);
+  server.on("/api/v1/motionoff", handleGetMotionOff);
   //server.on("/api/v1/setposition", HTTP_POST, handleSetPosition);
+  server.on(UriBraces("/api/v1/relay/{}/{}"), handleGetRelay);
+
   server.onNotFound(handleNotFound);
   server.begin();
 }
@@ -37,6 +42,20 @@ void handleGetWeatherInfo() {
   server.send(200, "application/json", str);
 }
 
+void handleGetMotionOn() {
+  motionOn();
+  char str[400];
+  sprintf(str, "{\"%s\":\"%s\"}", "motion", "on" );
+  server.send(200, "application/json", str);
+}
+
+void handleGetMotionOff() {
+  motionOff();
+  char str[400];
+  sprintf(str, "{\"%s\":\"%s\"}", "motion", "off" );
+  server.send(200, "application/json", str);
+}
+
 void handleNotFound() {
    server.send(404, "text/plain", "Sorry, Page Not found");
 }
@@ -54,3 +73,17 @@ void handleNotFound() {
     server.send(201);
   }
 }*/
+
+void handleGetRelay() {
+
+  String relayID = server.pathArg(0);
+  String relayStatus = server.pathArg(1);
+
+  if (!relayAction(relayID, relayStatus)) {
+    server.send(400, "text/plain", "400: relayID must be 1 | 2, and relayStatus must be on | off");
+    return;
+  }
+
+  String result = "{\"relayID\":\"" + relayID + "\", \"relayStatus\":\""+ relayStatus+"\"}";
+  server.send(200, "application/json", result);
+}

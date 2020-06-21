@@ -22,6 +22,7 @@ void setup() {
   initSensors();
   initTelegramBot();
   initMDNS();
+  initGPIO();
 
   updateNTPClientTime();
   getInfoFromSensors();
@@ -30,25 +31,27 @@ void setup() {
   initWebServerRouter();
 
   initConfig();
+  InitWOL();
 
 }
 
 void loop() {
 
-  if ((ticks % EVERY_10_SECONDS)==0) { 
+  if ((ticks % EVERY_30_SECONDS)==0) { 
     getInfoFromSensors();
     printWeatherInfo();
   }
 
-  if ((ticks % EVERY_6_SECONDS)==0) { 
-    handleBotMessages();
+  if ((ticks % EVERY_30_SECONDS)==0) {
+    handleBotMessages();  
   }
 
   if ((ticks % EVERY_1_HOUR)==0) {
     updateNTPClientTime();
-    Serial.println("Get time from internet " +getTimeFormatted());
+    Serial.println("Get time from internet " + getTimeFormatted());
   }
-
+  
+  handleIO();
   webServerDoStuff();
 
   ticks ++;

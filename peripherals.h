@@ -11,3 +11,16 @@
 
 // Serial port speed
 #define SERIAL_BAUD 115200
+
+// IO control
+// D1 & D2 already used for i2c comms, GPIO4 & 5
+
+#define RELAY1IO 12 // D6 on nodemcu
+#define RELAY2IO 13 // D7 on nodemcu
+
+#define SWITCH1IO 14 // D5 on nodemcu, MANUAL SWITCH POSITION
+#define SWITCH2IO 16 // D0 on nodemcu, SIM SWITCH POSITION
+
+// Specific logic
+#define SW_MANUAL "MANUAL" //Remote
+#define SW_SIM "SIM"
